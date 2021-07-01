@@ -18,6 +18,9 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
   final _passController = TextEditingController();
   final _confirmPassController = TextEditingController();
 
+  List<String> _countries = ['Russia', 'Ukraine', 'Germany', 'France'];
+  // String _selectedCountry = '';
+
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
@@ -130,6 +133,32 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
               keyboardType: TextInputType.emailAddress,
               // validator: _validateEmail,
             ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // DropdownButtonFormField(
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(),
+            //     icon: Icon(Icons.map),
+            //     labelText: 'Country?',
+            //   ),
+            //   items: _countries.map((country) {
+            //     return DropdownMenuItem(
+            //       child: Text(country),
+            //       value: country,
+            //     );
+            //   }).toList(),
+            //   onChanged: (data) {
+            //     print(data);
+            //     setState(() {
+            //       _selectedCountry = data.toString();
+            //     });
+            //   },
+            //   value: _selectedCountry,
+            //   // validator: (val) {
+            //   //   return val == null ? 'Please select a country' : null;
+            //   // },
+            // ),
             SizedBox(
               height: 20,
             ),
@@ -212,6 +241,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     print('Name: ${_nameController.text}');
     print('Phone: ${_phoneController.text}');
     print('Email: ${_emailController.text}');
+    // print('Country: $_selectedCountry');
     print('Story: ${_storyController.text}');
   }
 
