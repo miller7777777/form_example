@@ -69,9 +69,14 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
                 labelText: 'Full Name *',
                 hintText: 'What do people call you?',
                 prefixIcon: Icon(Icons.person),
-                suffixIcon: Icon(
-                  Icons.delete_outline,
-                  color: Colors.red,
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    _nameController.clear();
+                  },
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                  ),
                 ),
                 //граница несфокусированного поля
                 enabledBorder: OutlineInputBorder(
@@ -109,9 +114,14 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
                 hintText: 'Where can we reach you?',
                 helperText: 'Phone format: (XXX)XXX-XXXX',
                 prefixIcon: Icon(Icons.call),
-                suffixIcon: Icon(
-                  Icons.delete_outline,
-                  color: Colors.red,
+                suffixIcon: GestureDetector(
+                  onLongPress: () {
+                    _phoneController.clear();
+                  },
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                  ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -263,6 +273,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     // } else {
     //   print('Form is not valid! Please review and correct');
     // }
+    _showDialog(name: _nameController.text);
     print('Name: ${_nameController.text}');
     print('Phone: ${_phoneController.text}');
     print('Email: ${_emailController.text}');
@@ -324,5 +335,40 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     } else {
       return 'null';
     }
+  }
+
+  void _showDialog({String? name}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Registration successful',
+              style: TextStyle(
+                color: Colors.green,
+              ),
+            ),
+            content: Text(
+              '$name is now a verified register form',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 18.0,
+              ),
+            ),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Verified',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 18.0,
+                    ),
+                  )),
+            ],
+          );
+        });
   }
 }
