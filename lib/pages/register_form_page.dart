@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_example/model/user.dart';
+import 'package:form_example/pages/user_info_page.dart';
 
 class RegisterFormPage extends StatefulWidget {
   @override
@@ -25,6 +27,8 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
   final _nameFocus = FocusNode();
   final _phoneFocus = FocusNode();
   final _passFocus = FocusNode();
+
+  User newUser = User();
 
   void dispose() {
     _nameController.dispose();
@@ -99,6 +103,8 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
                 ),
               ),
               // validator: _validateName,
+              // onSaved: (value) => print(value),
+              onSaved: (value) => newUser.name = value,
             ),
             SizedBox(
               height: 10,
@@ -153,6 +159,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
               validator: (value) => _validatePhoneNumber(value!)
                   ? null
                   : 'Phone number must be entered as (###)',
+              onSaved: (value) => newUser.phone = value,
             ),
             SizedBox(
               height: 10,
@@ -166,6 +173,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
               ),
               keyboardType: TextInputType.emailAddress,
               // validator: _validateEmail,
+              onSaved: (value) => newUser.email = value,
             ),
             SizedBox(
               height: 10,
@@ -182,10 +190,11 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
                   value: country,
                 );
               }).toList(),
-              onChanged: (data) {
-                print(data);
+              onChanged: (country) {
+                print(country);
                 setState(() {
-                  _selectedCountry = data.toString();
+                  _selectedCountry = country.toString();
+                  newUser.country = country.toString();
                 });
               },
               // value: _selectedCountry,
@@ -208,6 +217,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
               inputFormatters: [
                 LengthLimitingTextInputFormatter(100),
               ],
+              onSaved: (value) => newUser.story = value,
             ),
             SizedBox(
               height: 10,
@@ -358,7 +368,18 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
             actions: [
               FlatButton(
                   onPressed: () {
+                    print('============');
+                    print(newUser.name);
+                    print('============');
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserInfoPage(
+                          userInfo: newUser,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(
                     'Verified',
